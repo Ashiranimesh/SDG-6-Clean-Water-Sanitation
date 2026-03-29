@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDG 6 - Policy & Progress</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+/* 1. Global Reset & Layout */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f9fb;
+    
+    min-height: 100vh;
+}
+
+/* 2. Page Title */
+.page_title {
+    text-align: center;
+    background-color: #03045e;
+    color: #ffffff;
+    padding: 15px;
+    margin: 20px auto;
+    max-width: 1200px;
+    border-radius: 4px;
+}
+
+/* 3. Container */
+.container {
+    
+    align-items: flex-start;
+    gap: 20px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* 4. Sidebar */
+.sidebar {
+    width: 100%; /* better for horizontal layout */
+    background-color: #caf0f8;
+    padding: 15px;
+    position: static;
+    border-radius: 8px;
+}
+
+/* Title */
+.sidebar h3 {
+    margin-bottom: 10px;
+    color: #03045e;
+}
+
+/* Horizontal menu */
+.sidebar ul {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #0077b6;
+    font-weight: bold;
+    background: white;
+    padding: 6px 10px;
+    border-radius: 5px;
+}
+
+
+/* 5. Main Content Area */
+.main-content {
+    flex: 1;
+}
+
+/* 6. Content Sections */
+section.intro, section.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.main-img {
+    width: 30%;
+    min-width: 200px;
+    border-radius: 10px;
+    margin: 15px auto;
+    display: block;
+}
+
+/* 7. Cards Grid */
+.content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+
+
+/* Scroll offset for sticky header */
+section#intro,
+section#un2030,
+section#national,
+section#monitoring,
+section#financing {
+    scroll-margin-top: 120px;
+}
+    </style>
+</head>
+<body>
+
+<!--					HEADER						-->
+
+
+<header>
+    <div class="logo-area" onclick="showPage('home')" role="link" tabindex="0" aria-label="BLUEDROP Home">
+      <div class="logo-icon" aria-hidden="true">💧</div>
+      <div><span class="logo-text">BLUEDROP</span><span class="logo-sub">SDG 6 · Clean Water &amp; Sanitation</span></div>
+    </div>
+
+<nav>
+	<ul>
+		<li><a href="home.html" >💠Home</a></li>
+		<li><a href="gallery.html">💠Gallery</a></li>
+		<li><a href="ais.html">💠Action Simulator</a></li> 
+		<li><a href="profile.html">💠User Profile</a></li>
+		<li><a href="feedback.html">💠Feedback</a></li>
+		<li><a href="team.html">💠Team</a></li>
+		<li><a href="sitemap.html">💠Sitemap</a></li>
+		<li><a href="content_ST3.html" class="active">💠Content</a></li>
+		
+
+	</ul>
+</nav>
+
+</header>
+
+
+
+<div class="page_title">
+    <h2>Policy & Progress:Global Commitments & Goals</h2>
+</div>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h3>📌 Topics</h3>
+        <ul>
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#un2030">UN 2030 Agenda</a></li>
+            <li><a href="#national">National Policies</a></li>
+            <li><a href="#monitoring">Monitoring</a></li>
+            <li><a href="#financing">Financing</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <section id="intro" class="intro">
+            <h3>Introduction</h3>
+            <img src="media/1692571138151.png"
+                 alt="UN General Assembly Hall — policy discussions on SDG 6"
+                 class="main-img">
+            <p>
+                Global policies are the backbone of progress on SDG 6 — Clean Water and Sanitation.
+                Governments, international organisations, and civil society have committed to a
+                framework of agreements, targets, and funding mechanisms to ensure that safe water
+                and adequate sanitation become a reality for every person on Earth by 2030.
+            </p>
+            <p>
+                This page explores the key global policy instruments shaping the water and
+                sanitation agenda: the United Nations 2030 Sustainable Development framework,
+                national implementation strategies, international monitoring systems, and the
+                financial commitments required to turn policy into practice. Understanding these
+                policies is essential for appreciating both the progress made and the distance
+                still to travel.
+            </p>
+        </section>
+
+        <section class="content">
+
+            <div id="un2030" class="card">
+                <h3>🌐 UN 2030 Agenda</h3>
+                <img src="media/UN 2030 Agenda ST 3.jpg"
+                     alt="UN Sustainable Development Goals poster">
+                <p>
+                    In September 2015, all 193 UN Member States adopted the
+                    <strong>2030 Agenda for Sustainable Development</strong>, which enshrines
+                    SDG 6 as a standalone goal with eight specific targets. These range from
+                    achieving universal safe drinking water (Target 6.1) and ending open
+                    defecation (Target 6.2) to protecting water-related ecosystems (Target 6.6)
+                    and expanding international cooperation on water management (Target 6.a).
+                    The agenda marked the first time water and sanitation were recognised as
+                    an integrated global priority rather than sectoral concerns.
+                </p>
+            </div>
+
+            <div id="national" class="card">
+                <h3>🏛️ National Policies</h3>
+                <img src="media/National Policies ST 3.jpg"
+                     alt="Water supply infrastructure representing national-level implementation">
+                <p>
+                    Each country is expected to translate SDG 6 targets into
+                    <strong>national water and sanitation policies</strong>. Many nations have
+                    enacted dedicated legislation — such as water acts, national sanitation
+                    programmes, and integrated water resource management (IWRM) plans — to
+                    create legal frameworks for delivery. Low- and middle-income countries
+                    often receive technical support from UN-Water, UNICEF, and the WHO to
+                    develop these plans. The quality and ambition of national policies varies
+                    significantly, making cross-country comparison and peer learning important
+                    tools for accelerating progress.
+                </p>
+            </div>
+
+            <div id="monitoring" class="card">
+                <h3>📊 Global Monitoring</h3>
+                <img src="media/Global Monitoring ST 3.jpg"
+                     alt="WHO/UNICEF Joint Monitoring Programme logo">
+                <p>
+                    Progress on SDG 6 is tracked through the
+                    <strong>WHO/UNICEF Joint Monitoring Programme (JMP)</strong> for Water
+                    Supply, Sanitation and Hygiene. The JMP collects nationally representative
+                    household survey data to produce estimates across a service ladder — from
+                    "no service" to "safely managed" — for drinking water, sanitation, and
+                    hygiene. These reports are presented annually to the UN High-Level Political
+                    Forum and inform decisions by donors, governments, and NGOs. Without
+                    reliable monitoring, it is impossible to know where investments are needed
+                    most urgently.
+                </p>
+            </div>
+
+            <div id="financing" class="card">
+                <h3>💰 Financing the Goals</h3>
+                <img src="media/Financing the Goals ST 3.webp"
+                     alt="International currency coins representing global financing">
+                <p>
+                    Achieving SDG 6 requires an estimated
+                    <strong>USD 114 billion per year</strong> in investment, according to the
+                    World Bank. Financing mechanisms include Official Development Assistance
+                    (ODA), national government budgets, blended finance instruments, and
+                    private-sector investment. The
+                    <strong>Addis Ababa Action Agenda (2015)</strong> established a global
+                    framework for financing sustainable development, calling on developed
+                    nations to meet their aid commitments and encouraging innovative domestic
+                    resource mobilisation. Closing the financing gap is one of the most
+                    critical policy challenges standing between current progress and the 2030
+                    targets.
+                </p>
+            </div>
+
+        </section>
+
+    </main>
+</div>
+
+<!--					FOOTER					-->
+
+
+<footer>
+
+
+<div class="footer-inner">
+    <div class="footer-brand"><h3>💧BLUEDROP</h3><p>A University of Westminster group project for 4COSC011W — Web Design &amp; Development 2025/26. Aligned with SDG 6:Clean Water &amp; Sanitation</p></div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <a onclick="showPage('home')">Home</a><a onclick="showPage('gallery')">Gallery</a><a onclick="showPage('ais')">Action Simulator</a>
+      <a onclick="showPage('feedback')">Feedback</a><a onclick="showPage('team')">Team</a><a onclick="showPage('sitemap')">Sitemap</a>
+    </div>
+    <div class="footer-col" id="footer-editor-col">
+      <h4>Page Editors</h4>
+      <a onclick="showPage('pageEditor_ST1')">Ashira Nimesh (ST1)</a><a onclick="showPage('pageEditor_ST2')">Sanudima Fernando(ST2)</a>
+      <a onclick="showPage('pageEditor_ST3')">Paramee Vihara(ST3)</a><a onclick="showPage('pageEditor_ST4')">Erani Chamathsara(ST4)</a>
+    </div>
+
+    <div class="footer-col2" id="footer-editor-col22">
+      <h4>Validations</h4>
+      <a onclick="showPage('validation_ST1')">Ashira Nimesh (ST1)</a><a onclick="showPage('validation_ST2')">Sanudima Fernando(ST2)</a>
+      <a onclick="showPage('validation_ST3')">Paramee Vihara(ST3)</a><a onclick="showPage('validation_ST4')">Erani Chamathsara(ST4)</a>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <span> &copy; 2026  AQUA6 Team — University of Westminster</span>
+    
+  </div>
+<div class="">
+	<a href="#top" id="topBtn">🔼</a>
+
+</div>
+
+
+
+</footer>
+
+<script>
+function showPage(page) {
+  window.location.href = page + ".html";
+}
+</script>
+
+
+
+</body>
+</html>
+

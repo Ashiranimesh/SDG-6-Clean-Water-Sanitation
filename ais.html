@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLUEDROP – SDG 6 Action Impact Simulator</title>
+
+  <!-- Google Fonts — matches the team's global style -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!--This is my globla css -->
+	<link rel="stylesheet" href="style.css">
+
+    <!-- ============================================================
+       PAGE-SPECIFIC EMBEDDED CSS — Action Impact Simulator (AIS)
+       Student 2 · Sanudima Methradha Fernando
+       These rules apply ONLY to this page and do not override global CSS.
+       ============================================================ -->
+  <style>
+    /* Rule 1 — Action cards grid layout */
+    .action-grid,
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.3rem;
+      margin-bottom: 2.2rem;
+    }
+
+    /* Rule 2 — Individual action card base style */
+    .action-card {
+      background: #fff;
+      border: 2.5px solid var(--neutral-light);
+      border-radius: 14px;
+      padding: 1.3rem;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      /* Smooth transitions for selection and hover */
+      transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
+    }
+    .action-card:hover {
+      border-color: var(--secondary);
+      box-shadow: 0 6px 24px rgba(0,180,216,.18);
+      transform: translateY(-3px);
+    }
+
+    /* Rule 3 — Selected card state */
+    .action-card.selected {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, #e0f7ff, #f0faff);
+      box-shadow: 0 4px 20px rgba(0,119,182,.2);
+    }
+
+    /* Rule 4 — Checkmark badge shown only when selected */
+    .check-badge {
+      display: none;
+      position: absolute;
+      top: .8rem;
+      right: .8rem;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      font-weight: 700;
+    }
+    .action-card.selected .check-badge { display: flex; }
+
+    /* Rule 5 — Thumbnail image inside each card */
+    .action-card img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: .8rem;
+      transition: transform .3s ease;
+    }
+    .action-card:hover img { transform: scale(1.03); }
+
+    /* Rule 6 — Card heading */
+    .action-card h3 {
+      font-size: 1rem;
+      margin-bottom: .3rem;
+      color: var(--neutral-dark);
+    }
+
+    /* Rule 7 — Card description text */
+    .action-card p {
+      font-size: .83rem;
+      color: var(--text-light);
+      margin-bottom: .5rem;
+      line-height: 1.55;
+    }
+
+    /* Rule 8 — Impact-points badge */
+    .impact-badge {
+      display: inline-block;
+      background: var(--neutral-light);
+      color: var(--primary);
+      font-size: .73rem;
+      font-weight: 700;
+      padding: .2rem .6rem;
+      border-radius: 50px;
+      letter-spacing: .04em;
+    }
+    .action-card.selected .impact-badge {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    /* Rule 9 — Feedback / score panel */
+    .impact-panel {
+      border-radius: var(--radius);
+      padding: 2rem 2.2rem;
+      margin-bottom: 2rem;
+      /* Background is changed by JavaScript based on impact level */
+      background: linear-gradient(135deg, #4a5568, #2d3748);
+      color: white;
+      min-height: 140px;
+      position: relative;
+      overflow: hidden;
+      /* Smooth background transitions driven by JS */
+      transition: background 0.55s ease;
+    }
+    /* Subtle wave decoration inside panel */
+    .impact-panel::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.06);
+      pointer-events: none;
+    }
+    .impact-panel h3 { color: white; margin-bottom: .4rem; font-size: 1rem; letter-spacing: .06em; text-transform: uppercase; }
+    .impact-score {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: #48cae4;
+      line-height: 1;
+    }
+    .impact-level { font-size: 1.1rem; font-weight: 600; color: var(--accent); margin-bottom: .5rem; }
+    .impact-message  { color: rgba(255,255,255,.85); font-size: .95rem; }
+
+    /* Rule 10 — Reset button inside feedback panel */
+    .impact-reset-button {
+      background: rgba(255,255,255,.15);
+      border: 1.5px solid rgba(255,255,255,.4);
+      color: white;
+      font-size: .85rem;
+      font-weight: 600;
+      padding: .45rem 1.1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background .2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .impact-reset-button:hover { background: rgba(255,255,255,.28); }
+
+    /* Rule 11 — Impact-level hint bar */
+    .impact-hint,
+    .impact-key {
+      background: rgba(202,240,248,.45);
+      border: 1.5px solid var(--primary-light);
+      border-radius: var(--radius-sm);
+      padding: .7rem 1.1rem;
+      font-size: .88rem;
+      color: var(--text-mid);
+      margin-bottom: 1.6rem;
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .impact-hint strong,
+    .impact-key strong { color: var(--primary); }
+
+    /* Rule 12 — Section divider heading */
+    .ais-section-label,
+    .actions-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 1rem;
+      padding-bottom: .4rem;
+      border-bottom: 2px solid var(--neutral-light);
+    }
+
+.page-banner{background:linear-gradient(135deg,var(--neutral-dark),var(--primary));border-radius:var(--radius);padding:2.5rem 2rem;margin-bottom:2.5rem;color:white;}
+.page-banner h1{color:white;font-size:clamp(1.6rem,4vw,2.6rem);margin-bottom:.4rem;}
+.page-banner p{color:rgba(255,255,255,.8);margin:0;}
+
+
+:root {
+  --primary:#0077b6; --primary-dark:#005f99; 
+  --accent:#48cae4;
+  --neutral-dark:#03045e; --neutral-mid:#023e8a; --neutral-light:#caf0f8;
+  --white:#f0faff; --text-dark:#0a0a2e; --text-mid:#1a3a5c; --text-light:#5a7a9c;
+  --card-bg:rgba(255,255,255,0.93); --shadow:0 4px 24px rgba(0,119,182,.13);
+  --shadow-hover:0 8px 40px rgba(0,119,182,.22); --radius:14px; --radius-sm:8px;
+  --transition:.3s cubic-bezier(.4,0,.2,1);
+}
+
+</style>
+</head>
+
+
+<body>
+
+<!--					HEADER						-->
+
+
+<header>
+    <div class="logo-area" onclick="showPage('home')" role="link" tabindex="0" aria-label="BLUEDROP Home">
+      <div class="logo-icon" aria-hidden="true">💧</div>
+      <div><span class="logo-text">BLUEDROP</span><span class="logo-sub">SDG 6 · Clean Water &amp; Sanitation</span></div>
+    </div>
+
+<nav>
+	<ul>
+		<li><a href="home.html">💠Home</a></li>
+		<li><a href="gallery.html">💠Gallery</a></li>
+		<li><a href="ais.html" class="active">💠Action Simulator</a></li> 
+		<li><a href="profile.html">💠User Profile</a></li>
+		<li><a href="feedback.html">💠Feedback</a></li>
+		<li><a href="team.html">💠Team</a></li>
+		<li><a href="sitemap.html">💠Sitemap</a></li>
+		
+	</ul>
+</nav>
+
+</header>
+
+
+
+<!-- ============================================================
+     MAIN  — Action Impact Simulator (Student 2)
+     ============================================================ -->
+<main>
+
+  <!-- Page banner -->
+  <div class="page-banner">
+    <h1>SDG 6 Action Impact Simulator</h1>
+    <p>Select the water-saving actions you take — or could take — and watch your combined impact score grow in real time.</p>
+  </div>
+
+  <!-- Impact-level key -->
+  <div class="impact-key" role="note" aria-label="Impact level key">
+    ℹ️ Impact thresholds:
+    <strong>🌱 Low = 1–5 pts</strong>
+    <strong>🌊 Medium = 6–12 pts</strong>
+    <strong>💧 High = 13+ pts</strong>
+    (maximum 21 pts if all actions selected)
+  </div>
+
+
+  <!-- ── Feedback / score panel ─────────────────────────────── -->
+  <!--
+       The panel's background gradient is swapped by JavaScript
+       to reflect three distinct impact levels:
+         Low    → dark slate  (linear-gradient 135deg #4a5568 → #2d3748)
+         Medium → ocean blue  (linear-gradient 135deg #0077b6 → #023e8a)
+         High   → bright teal (linear-gradient 135deg #00b4d8 → #48cae4)
+  -->
+  <div class="impact-panel" id="impactPanel" aria-live="polite" aria-atomic="true">
+    <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+
+      <!-- Left: score + level + message -->
+      <div>
+        <div style="font-size:.75rem; color:rgba(255,255,255,.6); text-transform:uppercase; letter-spacing:.1em; margin-bottom:.2rem;">
+          Your Impact Score
+        </div>
+        <div class="impact-score" id="impactScore">0</div>
+        <div class="impact-level" id="impactLevel">Select actions below to begin</div>
+        <div class="impact-message" id="impactMessage">Choose at least one action to see your combined impact.</div>
+        <button class="impact-reset-button" id="impactResetButton" aria-label="Reset all selected actions">↺ Reset Selections</button>
+      </div>
+
+      <!-- Right: selected count -->
+      <div style="text-align:right;">
+        <div style="font-size:.75rem; color:rgba(255,255,255,.6); text-transform:uppercase; letter-spacing:.1em; margin-bottom:.2rem;">
+          Actions Selected
+        </div>
+        <div style="font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:900; color:#90e0ef;" id="selectedCount">
+          0 / 6
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Action cards grid ─────────────────────────────────── -->
+  <div class="actions-label">Pick your actions — click a card to select it</div>
+
+  <!--
+       Cards are injected by JavaScript (initAIS function).
+       Using JS to build cards demonstrates DOM manipulation
+       and keeps the data cleanly separated from markup.
+  -->
+  <div class="actions-grid" id="actionsGrid" role="list" aria-label="SDG 6 action cards"></div>
+
+</main>
+
+
+<!-- ============================================================
+     JAVASCRIPT — Action Impact Simulator
+     Student 2 · Sanudima Methradha Fernando
+     Responsibilities:
+       • Build action cards dynamically (DOM manipulation)
+       • Track selected cards (Set data structure)
+       • Calculate & display real-time impact score
+       • Swap background image/gradient across 3 impact levels
+       • Keyboard accessibility (Enter / Space to toggle)
+       • Reset all selections
+     ============================================================ -->
+<script>
+  /* ---------------------------------------------------------------
+     DATA — six action cards for SDG 6
+     Each card has:
+       title : string  — card heading
+       desc  : string  — short description
+       pts   : number  — impact points (1–5 scale)
+       img   : string  — Unsplash royalty-free image URL
+       alt   : string  — descriptive alt text for accessibility
+     Impact thresholds (defined here for easy adjustment):
+       Low    = 1–5  pts
+       Medium = 6–12 pts
+       High   = 13+  pts  (max possible = 21)
+  --------------------------------------------------------------- */
+  var aisActions = [
+    {
+      title : 'Fix Dripping Taps',
+      desc  : 'A single dripping tap can waste over 20 litres per day. Report or fix leaks in your home, campus accommodation, or workplace immediately.',
+      pts   : 3,
+      img   : 'media/alex-cherry-EyVr5Goz1Ic-unsplash.jpg',
+      alt   : 'Close-up of a dripping tap with water drops'
+    },
+    {
+      title : 'Use Public Transport',
+      desc  : 'Car washing and fuel production consume enormous amounts of freshwater. Swapping one car journey per week for public transport helps reduce your water footprint.',
+      pts   : 2,
+      img   : 'media/photo-1570125909232-eb263c188f7e.jpg',
+      alt   : 'People boarding a public bus in a city'
+    },
+    {
+      title : 'Reduce Food Waste',
+      desc  : 'Producing food accounts for 70% of global freshwater use. Planning meals and using leftovers cuts both food and the hidden water embedded in every item you eat.',
+      pts   : 3,
+      img   : 'media/photo-1504674900247-0877df9cc836.jpg',
+      alt   : 'A plate of food with fresh vegetables being planned'
+    },
+    {
+      title : 'Take Shorter Showers',
+      desc  : 'A standard shower uses about 9 litres per minute. Cutting your shower by just 2 minutes saves roughly 18 litres per day — over 6,500 litres per year.',
+      pts   : 4,
+      img   : 'media/ginger-hendee-N8buV78yNBo-unsplash.jpg',
+      alt   : 'Shower head with running water'
+    },
+    {
+      title : 'Volunteer Locally',
+      desc  : 'Give time to a local river clean-up, community garden, or water-literacy campaign aligned with SDG 6. Collective action multiplies individual impact enormously.',
+      pts   : 5,
+      img   : 'media/the-tampa-bay-estuary-program-CxL29J-aM5E-unsplash.jpg',
+      alt   : 'Group of volunteers cleaning up a riverbank'
+    },
+    {
+      title : 'Share Awareness',
+      desc  : 'Encourage friends, family, and social media followers to learn about the global water crisis. Sharing credible information helps build community momentum for SDG 6.',
+      pts   : 4,
+      img   : 'media/photo-1522202176988-66273c2fd55f.jpg',
+      alt   : 'People sharing information on mobile devices and laptops'
+    }
+  ];
+
+  /* ---------------------------------------------------------------
+     STATE — track which cards are currently selected using a Set
+     A Set is ideal here: O(1) add/delete/has, and it stores
+     unique indices only (no duplicates possible).
+  --------------------------------------------------------------- */
+  var aisSelected = new Set();
+
+  /* ---------------------------------------------------------------
+     BACKGROUND DEFINITIONS — three gradient strings.
+     JavaScript sets element.style.background from these strings,
+     satisfying the coursework's "JS-controlled background change"
+     requirement.  CSS alone does NOT switch between these.
+  --------------------------------------------------------------- */
+  var BG = {
+    none   : 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',
+    low    : 'linear-gradient(135deg, #4a5568 0%, #2d3748 100%)',   /* Background A — dark slate */
+    medium : 'linear-gradient(135deg, #0077b6 0%, #023e8a 100%)',   /* Background B — ocean blue */
+    high   : 'linear-gradient(135deg, #00b4d8 0%, #0096c7 60%, #48cae4 100%)' /* Background C — teal */
+  };
+
+  /* ---------------------------------------------------------------
+     initAIS()
+     Builds all action cards via DOM manipulation and attaches
+     event listeners.  Called once when the DOM is ready.
+  --------------------------------------------------------------- */
+  function initAIS() {
+    var grid = document.getElementById('actionsGrid');
+
+    aisActions.forEach(function(action, index) {
+
+      /* --- Create card container --- */
+      var card = document.createElement('article');
+      card.className = 'action-card';
+      card.setAttribute('role', 'listitem');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-pressed', 'false');
+      card.setAttribute('aria-label', action.title + ' — ' + action.pts + ' impact point' + (action.pts !== 1 ? 's' : ''));
+
+      /* --- Build inner HTML --- */
+      card.innerHTML =
+        /* Checkmark badge — visible only when selected (CSS handles display) */
+        '<div class="check-badge" aria-hidden="true">✓</div>' +
+
+        /* Thumbnail image — royalty-free from Unsplash */
+        '<img src="' + action.img + '" alt="' + action.alt + '">' +
+
+        /* Card heading */
+        '<h3>' + action.title + '</h3>' +
+
+        /* Short description */
+        '<p>' + action.desc + '</p>' +
+
+        /* Impact-points badge */
+        '<span class="impact-badge">⚡ ' + action.pts + ' impact pt' + (action.pts !== 1 ? 's' : '') + '</span>';
+
+      /* --- Toggle selection on click --- */
+      function toggleCard() {
+        if (aisSelected.has(index)) {
+          /* Deselect */
+          aisSelected.delete(index);
+          card.classList.remove('selected');
+          card.setAttribute('aria-pressed', 'false');
+        } else {
+          /* Select */
+          aisSelected.add(index);
+          card.classList.add('selected');
+          card.setAttribute('aria-pressed', 'true');
+        }
+        updateAIS();  /* Recalculate score and update UI */
+      }
+
+      /* Mouse click */
+      card.addEventListener('click', toggleCard);
+
+      /* Keyboard: Enter or Space activates the card (accessibility) */
+      card.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggleCard();
+        }
+      });
+
+      grid.appendChild(card);
+    });
+
+    /* --- Reset button --- */
+    document.getElementById('impactResetButton').addEventListener('click', function() {
+      /* Clear selection state */
+      aisSelected.clear();
+      /* Remove visual selected state from all cards */
+      document.querySelectorAll('.action-card').forEach(function(c) {
+        c.classList.remove('selected');
+        c.setAttribute('aria-pressed', 'false');
+      });
+      /* Recalculate (will show zero state) */
+      updateAIS();
+    });
+
+    /* Initial UI draw */
+    updateAIS();
+  }
+
+  /* ---------------------------------------------------------------
+     updateAIS()
+     Reads the current selection Set, calculates the total score,
+     determines the impact level, and updates the DOM accordingly.
+     Also changes the feedback panel's background via JavaScript
+     (satisfying the "Background Image Changes — Three Levels"
+     requirement from section 4.5.6 of the coursework spec).
+  --------------------------------------------------------------- */
+  function updateAIS() {
+    /* --- Calculate total score --- */
+    var total = 0;
+    aisSelected.forEach(function(i) {
+      total += aisActions[i].pts;
+    });
+
+    /* --- Update score and count displays --- */
+    document.getElementById('impactScore').textContent  = total;
+    document.getElementById('selectedCount').textContent  = aisSelected.size + ' / ' + aisActions.length;
+
+    /* --- Determine impact level and set UI state --- */
+    var level, msg, bg;
+
+    if (total === 0) {
+      /* Zero state — no selection yet */
+      level = 'Select actions below to begin';
+      msg   = 'Choose at least one action to see your combined impact.';
+      bg    = BG.none;
+
+    } else if (total <= 5) {
+      /* Low impact — Background A (dark slate) */
+      level = '🌱 Low Impact';
+      msg   = 'Good start! Every action matters. Try adding a few more to boost your score.';
+      bg    = BG.low;
+
+    } else if (total <= 12) {
+      /* Medium impact — Background B (ocean blue) */
+      level = '🌊 Medium Impact';
+      msg   = "Great work! You're making a meaningful difference for SDG 6. Can you reach High impact?";
+      bg    = BG.medium;
+
+    } else {
+      /* High impact — Background C (bright teal) */
+      level = '💧 High Impact';
+      msg   = "Outstanding! Your commitment to clean water is truly inspiring. Share your choices with others!";
+      bg    = BG.high;
+    }
+
+    /* Update text nodes */
+    document.getElementById('impactLevel').textContent = level;
+    document.getElementById('impactMessage').textContent   = msg;
+
+    /*
+     * JS-controlled background change (coursework spec §4.5.6):
+     * We directly set the style.background property here in JavaScript.
+     * This is NOT a CSS-only trick — the change is driven by JS logic above.
+     */
+    document.getElementById('impactPanel').style.background = bg;
+  }
+
+  /* ---------------------------------------------------------------
+     Initialise when DOM is fully parsed
+  --------------------------------------------------------------- */
+  document.addEventListener('DOMContentLoaded', initAIS);
+</script>
+
+<!--					FOOTER					-->
+
+
+<footer>
+
+
+<div class="footer-inner">
+    <div class="footer-brand"><h3>💧BLUEDROP</h3><p>A University of Westminster group project for 4COSC011W — Web Design &amp; Development 2025/26. Aligned with SDG 6:Clean Water &amp; Sanitation</p></div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <a onclick="showPage('home')">Home</a><a onclick="showPage('gallery')">Gallery</a><a onclick="showPage('ais')">Action Simulator</a>
+      <a onclick="showPage('feedback')">Feedback</a><a onclick="showPage('team')">Team</a><a onclick="showPage('sitemap')">Sitemap</a>
+    </div>
+    <div class="footer-col" id="footer-editor-col">
+      <h4>Page Editors</h4>
+      <a onclick="showPage('pageEditor_ST1')">Ashira Nimesh (ST1)</a><a onclick="showPage('pageEditor_ST2')">Sanudima Fernando(ST2)</a>
+      <a onclick="showPage('pageEditor_ST3')">Paramee Vihara(ST3)</a><a onclick="showPage('pageEditor_ST4')">Erani Chamathsara(ST4)</a>
+    </div>
+
+    <div class="footer-col2" id="footer-editor-col22">
+      <h4>Validations</h4>
+      <a onclick="showPage('validation_ST1')">Ashira Nimesh (ST1)</a><a onclick="showPage('validation_ST2')">Sanudima Fernando(ST2)</a>
+      <a onclick="showPage('validation_ST3')">Paramee Vihara(ST3)</a><a onclick="showPage('validation_ST4')">Erani Chamathsara(ST4)</a>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <span> &copy; 2026  AQUA6 Team — University of Westminster</span>
+    
+  </div>
+<div class="">
+	<a href="#top" id="topBtn">🔼</a>
+
+</div>
+
+
+
+</footer>
+
+<script>
+function showPage(page) {
+  window.location.href = page + ".html";
+}
+</script>
+
+
+</body>
+</html>

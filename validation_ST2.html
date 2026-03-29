@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLUEDROP – Validation Page · Student 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">  
+<style>
+    :root{--primary:#0077b6;--primary-dark:#005f99;--primary-light:#90e0ef;--secondary:#00b4d8;--neutral-dark:#03045e;--neutral-light:#caf0f8;--white:#f0faff;--text-dark:#0a0a2e;--text-mid:#1a3a5c;--text-light:#5a7a9c;--shadow:0 4px 24px rgba(0,119,182,.13);--radius:14px;--radius-sm:8px;--transition:.3s cubic-bezier(.4,0,.2,1);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text-dark);line-height:1.7;min-height:100vh;display:flex;flex-direction:column;}
+    h1,h2,h3,h4{font-family:'Playfair Display',serif;color:var(--neutral-dark);line-height:1.25;}
+    h1{font-size:clamp(2rem,5vw,3rem);font-weight:900;}
+    h2{font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;}
+    p{font-size:1rem;color:var(--text-mid);margin-bottom:1em;}
+    a{color:var(--primary);text-decoration:none;transition:color var(--transition);}
+    a:hover{color:var(--secondary);}
+    img{max-width:100%;height:auto;display:block;}
+    
+  </style>
+  <style>
+    /* Validation page specific styles */
+    .val-wrapper{max-width:1200px;width:100%;margin:0 auto;padding:2.5rem 2rem;flex:1;}
+    .val-hero{background:linear-gradient(135deg,var(--neutral-dark),var(--primary));border-radius:var(--radius);padding:2.5rem 2rem;margin-bottom:2.5rem;color:white;}
+    .val-hero h1{color:white;margin-bottom:.4rem;}
+    .val-hero p{color:rgba(255,255,255,.8);margin:0;}
+    .val-layout{display:flex;gap:2rem;align-items:flex-start;}
+    .val-sidebar{flex:0 0 220px;background:#f0f7fc;border:1px solid var(--neutral-light);border-radius:var(--radius-sm);padding:1.2rem;position:sticky;top:90px;}
+    .val-sidebar h4{font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--secondary);margin-bottom:.8rem;}
+    .val-sidebar ul{list-style:none;padding:0;}
+    .val-sidebar ul li{margin-bottom:.35rem;}
+    .val-sidebar ul li a{color:var(--text-mid);font-size:.88rem;transition:color var(--transition);}
+    .val-sidebar ul li a:hover{color:var(--primary);}
+    .val-main{flex:1;min-width:0;}
+    .val-section{background:#fff;border:1px solid rgba(202,240,248,.8);border-radius:var(--radius);padding:1.8rem 2rem;margin-bottom:2rem;box-shadow:var(--shadow);scroll-margin-top:90px;}
+    .val-section h2{display:flex;align-items:center;gap:.6rem;padding-bottom:.7rem;border-bottom:2px solid var(--neutral-light);margin-bottom:1.2rem;font-size:1.5rem;}
+    .val-section h2 .v-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--secondary));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+    .pass-badge{display:inline-flex;align-items:center;gap:.4rem;background:#dcfce7;color:#166534;border:1.5px solid #86efac;border-radius:50px;font-size:.78rem;font-weight:700;padding:.2rem .8rem;margin-bottom:1rem;letter-spacing:.04em;}
+    .val-screenshot{background:#f0f7fc;border:2px dashed var(--primary-light);border-radius:var(--radius-sm);padding:1.5rem;margin:1rem 0;text-align:center;}
+    .val-screenshot img{border-radius:var(--radius-sm);box-shadow:var(--shadow);margin:0 auto;max-height:400px;object-fit:contain;}
+    .val-screenshot p{font-size:.82rem;color:var(--text-light);margin-top:.6rem;margin-bottom:0;font-style:italic;}
+    .val-note{background:rgba(202,240,248,.4);border-left:4px solid var(--accent);border-radius:var(--radius-sm);padding:.9rem 1.1rem;font-size:.88rem;color:var(--text-mid);margin:.9rem 0;}
+    .val-note strong{color:var(--primary-dark);}
+    .go-top{position:fixed;bottom:2rem;right:2rem;z-index:500;width:46px;height:46px;background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;box-shadow:0 4px 16px rgba(0,119,182,.35);text-decoration:none;transition:transform var(--transition);}
+    .go-top:hover{transform:translateY(-4px);color:white;}
+    @media(max-width:760px){.val-layout{flex-direction:column;}.val-sidebar{position:static;flex:none;width:100%;}}
+  </style>
+</head>
+<body id="top">
+
+<!--					HEADER						-->
+
+
+<header>
+    <div class="logo-area" onclick="showPage('home')" role="link" tabindex="0" aria-label="BLUEDROP Home">
+      <div class="logo-icon" aria-hidden="true">💧</div>
+      <div><span class="logo-text">BLUEDROP</span><span class="logo-sub">SDG 6 · Clean Water &amp; Sanitation</span></div>
+    </div>
+
+<nav>
+	<ul>
+		<li><a href="home.html">💠Home</a></li>
+		<li><a href="gallery.html">💠Gallery</a></li>
+		<li><a href="ais.html">💠Action Simulator</a></li> 
+		<li><a href="profile.html">💠User Profile</a></li>
+		<li><a href="feedback.html">💠Feedback</a></li>
+		<li><a href="team.html">💠Team</a></li>
+		<li><a href="sitemap.html">💠Sitemap</a></li>
+		
+
+	</ul>
+</nav>
+
+</header>
+<div class="val-wrapper">
+  <div class="val-hero">
+    <h1>Validation Page</h1>
+	<p>AQUA6</p>
+    <p>Student 2 — Sanudima Methradha · 4COSC011W 2025/26 · University of Westminster<br>
+    Evidence of W3C HTML validation for all pages implemented by Student 2.</p>
+  </div>
+
+  <div class="val-layout">
+    <aside class="val-sidebar" aria-label="Validation sections">
+      <h4>📋 Jump to</h4>
+      <ul>
+        <li><a href="#splashVal">Splash Screen</a></li>
+        <li><a href="#aisVal">Action Impact Simulator</a></li>
+        <li><a href="#contentVal">Content Page</a></li>
+        <li><a href="#reflectionVal">Reflection</a></li>
+      </ul>
+    </aside>
+
+    <main class="val-main">
+
+      <section class="val-section" id="splashVal" aria-labelledby="v1-title">
+        <h2 id="v1-title"><span class="v-icon" aria-hidden="true">🌊</span> Splash Screen</h2>
+        <span class="pass-badge">✅ Validated — No Errors</span>
+        <p>The Splash Screen (<code>splash.html</code>) was validated using the W3C Markup Validation Service. The page passed with no errors. One informational warning was present regarding the <code>type</code> attribute on the <code>&lt;style&gt;</code> element, which is acceptable.</p>
+        <p><strong>File validated:</strong> <code>splash.html</code><br>
+           <strong>Validator used:</strong> <a href="https://validator.w3.org/" target="_blank" rel="noopener">W3C Markup Validation Service</a><br>
+           <strong>Result:</strong> 0 Errors · Warnings acceptable</p>
+        <div class="val-screenshot">
+          <img src="media/splash 1.png"
+               alt="W3C validation result screenshot for splash.html showing no errors">
+          <p>Screenshot: W3C validation result for <code>splash.html</code> — 0 errors</p>
+        </div>
+        <div class="val-note">
+          <strong>ℹ️ Note:</strong> Any warnings present relate to informational notices only and do not constitute errors. The page is fully compliant with HTML5 standards.
+        </div>
+        <p><a href="pageEditor_ST2.html#splash">← Back to Splash Screen description in Page Editor</a></p>
+      </section>
+
+      <section class="val-section" id="aisVal" aria-labelledby="v2-title">
+        <h2 id="v2-title"><span class="v-icon" aria-hidden="true">⚡</span> Action Impact Simulator</h2>
+        <span class="pass-badge">✅ Validated — No Errors</span>
+        <p>The Action Impact Simulator (<code>ais.html</code>) was validated using the W3C Markup Validation Service. All HTML5 structural elements, ARIA attributes, and embedded <code>&lt;style&gt;</code> blocks were accepted without error.</p>
+        <p><strong>File validated:</strong> <code>ais.html</code><br>
+           <strong>Validator used:</strong> <a href="https://validator.w3.org/" target="_blank" rel="noopener">W3C Markup Validation Service</a><br>
+           <strong>Result:</strong> 0 Errors · Warnings acceptable</p>
+        <div class="val-screenshot">
+          <img src="media/ais 1.png"
+               alt="W3C validation result screenshot for ais.html showing no errors">
+          <p>Screenshot: W3C validation result for <code>ais.html</code> — 0 errors</p>
+        </div>
+        <div class="val-note">
+          <strong>ℹ️ Note:</strong> The AIS page uses <code>aria-pressed</code>, <code>aria-live</code>, and <code>role="list"</code> attributes. These are valid HTML5 and do not trigger validation errors.
+        </div>
+        <p><a href="pageEditor_ST2.html#ais">← Back to AIS description in Page Editor</a></p>
+      </section>
+
+      <section class="val-section" id="contentVal" aria-labelledby="v3-title">
+        <h2 id="v3-title"><span class="v-icon" aria-hidden="true">📄</span> Content Page</h2>
+        <span class="pass-badge">✅ Validated — No Errors</span>
+        <p>The Content Page (<code>content_ST2.html</code>) was validated using the W3C Markup Validation Service. Semantic HTML5 elements including <code>&lt;section&gt;</code>, <code>&lt;figure&gt;</code>, <code>&lt;figcaption&gt;</code>, <code>&lt;nav&gt;</code>, and <code>&lt;main&gt;</code> validated correctly. All images include <code>alt</code> attributes.</p>
+        <p><strong>File validated:</strong> <code>content_ST2.html</code><br>
+           <strong>Validator used:</strong> <a href="https://validator.w3.org/" target="_blank" rel="noopener">W3C Markup Validation Service</a><br>
+           <strong>Result:</strong> 0 Errors · Warnings acceptable</p>
+        <div class="val-screenshot">
+          <img src="media/contentsa.png"
+               alt="W3C validation result screenshot for content_ST2.html showing no errors">
+          <p>Screenshot: W3C validation result for <code>content_ST2.html</code> — 0 errors</p>
+        </div>
+        <div class="val-note">
+          <strong>ℹ️ Note:</strong> No deprecated elements or attributes were used. The <code>scroll-margin-top</code> CSS property is fully supported and accepted by the validator.
+        </div>
+        <p><a href="pageEditor_ST2.html#content">← Back to Content Page description in Page Editor</a></p>
+      </section>
+
+      <section class="val-section" id="reflectionVal" aria-labelledby="v4-title">
+        <h2 id="v4-title"><span class="v-icon" aria-hidden="true">💭</span> Reflection on Validation</h2>
+        <p>Validating my pages using the W3C Markup Validation Service was an instructive process. The most common issues I encountered during development and subsequently corrected included:</p>
+        <ul style="padding-left:1.4rem;margin-bottom:1rem;color:var(--text-mid);">
+          <li style="margin-bottom:.5rem;">Missing <code>lang</code> attribute on the <code>&lt;html&gt;</code> element — corrected by adding <code>lang="en"</code> to all pages.</li>
+          <li style="margin-bottom:.5rem;">Duplicate <code>id</code> attributes in an early AIS draft — resolved by ensuring each <code>id</code> was unique across the document.</li>
+          <li style="margin-bottom:.5rem;">An improperly nested <code>&lt;div&gt;</code> inside a <code>&lt;ul&gt;</code> — corrected by restructuring using <code>&lt;article&gt;</code> elements.</li>
+        </ul>
+        <p>Through validation I learned that writing valid HTML directly improves browser compatibility, screen-reader accessibility, and long-term maintainability. The process reinforced good habits: always closing tags, providing alt text for images, and using semantic elements appropriately.</p>
+        <div class="val-note">
+          <strong>✅ All three pages submitted by Student 2 passed W3C validation with zero errors.</strong> Screenshots above provide the evidence.
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<!--					FOOTER					-->
+
+
+<footer>
+
+
+<div class="footer-inner">
+    <div class="footer-brand"><h3>💧BLUEDROP</h3><p>A University of Westminster group project for 4COSC011W — Web Design &amp; Development 2025/26. Aligned with SDG 6:Clean Water &amp; Sanitation</p></div>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <a onclick="showPage('home')">Home</a><a onclick="showPage('gallery')">Gallery</a><a onclick="showPage('ais')">Action Simulator</a>
+      <a onclick="showPage('feedback')">Feedback</a><a onclick="showPage('team')">Team</a><a onclick="showPage('sitemap')">Sitemap</a>
+    </div>
+    <div class="footer-col" id="footer-editor-col">
+      <h4>Page Editors</h4>
+      <a onclick="showPage('pageEditor_ST1')">Ashira Nimesh (ST1)</a><a onclick="showPage('pageEditor_ST2')">Sanudima Fernando(ST2)</a>
+      <a onclick="showPage('pageEditor_ST3')">Paramee Vihara(ST3)</a><a onclick="showPage('pageEditor_ST4')">Erani Chamathsara(ST4)</a>
+    </div>
+
+    <div class="footer-col2" id="footer-editor-col22">
+      <h4>Validations</h4>
+      <a onclick="showPage('validation_ST1')">Ashira Nimesh (ST1)</a><a onclick="showPage('validation_ST2')">Sanudima Fernando(ST2)</a>
+      <a onclick="showPage('validation_ST3')">Paramee Vihara(ST3)</a><a onclick="showPage('validation_ST4')">Erani Chamathsara(ST4)</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span> &copy; 2026  AQUA6 Team — University of Westminster</span>
+    
+  </div>
+<div class="">
+	<a href="#top" id="topBtn">🔼</a>
+
+</div>
+
+
+
+</footer>
+
+<script>
+function showPage(page) {
+  window.location.href = page + ".html";
+}
+</script>
+
+
+
+</body>
+</html>
+
+
+
+
